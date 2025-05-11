@@ -6,6 +6,7 @@ from flask_login import current_user
 
 from extensions.ext_database import db
 from models.source import DataSourceOauthBinding
+from security import safe_requests
 
 
 class OAuthDataSource:
@@ -237,7 +238,7 @@ class NotionOAuth(OAuthDataSource):
             "Authorization": f"Bearer {access_token}",
             "Notion-Version": "2022-06-28",
         }
-        response = requests.get(url=f"{self._NOTION_BLOCK_SEARCH}/{block_id}", headers=headers)
+        response = safe_requests.get(url=f"{self._NOTION_BLOCK_SEARCH}/{block_id}", headers=headers)
         response_json = response.json()
         parent = response_json["parent"]
         parent_type = parent["type"]
@@ -250,7 +251,7 @@ class NotionOAuth(OAuthDataSource):
             "Authorization": f"Bearer {access_token}",
             "Notion-Version": "2022-06-28",
         }
-        response = requests.get(url=self._NOTION_BOT_USER, headers=headers)
+        response = safe_requests.get(url=self._NOTION_BOT_USER, headers=headers)
         response_json = response.json()
         if "object" in response_json and response_json["object"] == "user":
             user_type = response_json["type"]

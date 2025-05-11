@@ -6,7 +6,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import boto3
-import requests
 
 from core.model_runtime.entities.common_entities import I18nObject
 from core.model_runtime.entities.model_entities import AIModelEntity, FetchFrom, ModelType
@@ -19,6 +18,7 @@ from core.model_runtime.errors.invoke import (
     InvokeServerUnavailableError,
 )
 from core.model_runtime.model_providers.__base.tts_model import TTSModel
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -262,12 +262,12 @@ class SageMakerText2SpeechModel(TTSModel):
 
                 for future in futures:
                     resp = future.result()
-                    audio_bytes = requests.get(resp.get("s3_presign_url")).content
+                    audio_bytes = safe_requests.get(resp.get("s3_presign_url")).content
                     for i in range(0, len(audio_bytes), 1024):
                         yield audio_bytes[i : i + 1024]
             else:
                 resp = self._invoke_sagemaker(payload, sagemaker_endpoint)
-                audio_bytes = requests.get(resp.get("s3_presign_url")).content
+                audio_bytes = safe_requests.get(resp.get("s3_presign_url")).content
 
                 for i in range(0, len(audio_bytes), 1024):
                     yield audio_bytes[i : i + 1024]

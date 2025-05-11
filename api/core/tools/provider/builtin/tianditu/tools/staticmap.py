@@ -1,10 +1,9 @@
 import json
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class PoiSearchTool(BuiltinTool):
@@ -26,7 +25,7 @@ class PoiSearchTool(BuiltinTool):
 
         tk = self.runtime.credentials["tianditu_api_key"]
 
-        keyword_coords = requests.get(
+        keyword_coords = safe_requests.get(
             geocoder_base_url
             + "?ds="
             + json.dumps(
@@ -40,7 +39,7 @@ class PoiSearchTool(BuiltinTool):
         ).json()
         coords = keyword_coords["location"]["lon"] + "," + keyword_coords["location"]["lat"]
 
-        result = requests.get(
+        result = safe_requests.get(
             base_url + "?center=" + coords + "&markers=" + coords + "&width=400&height=300&zoom=14&tk=" + tk
         ).content
 

@@ -2,6 +2,7 @@ import os
 from typing import Literal, Optional, TypedDict
 
 import requests
+from security import safe_requests
 
 
 class RequestParamsDict(TypedDict, total=False):
@@ -208,7 +209,7 @@ class Spider:
         return requests.post(url, headers=headers, json=data, stream=stream)
 
     def _get_request(self, url: str, headers, stream=False):
-        return requests.get(url, headers=headers, stream=stream)
+        return safe_requests.get(url, headers=headers, stream=stream)
 
     def _delete_request(self, url: str, headers, stream=False):
         return requests.delete(url, headers=headers, stream=stream)

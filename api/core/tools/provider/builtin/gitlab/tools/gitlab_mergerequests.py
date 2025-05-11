@@ -5,6 +5,7 @@ import requests
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class GitlabMergeRequestsTool(BuiltinTool):
@@ -52,7 +53,7 @@ class GitlabMergeRequestsTool(BuiltinTool):
             if end_time:
                 params["created_before"] = end_time
 
-            response = requests.get(merge_requests_url, headers=headers, params=params)
+            response = safe_requests.get(merge_requests_url, headers=headers, params=params)
             response.raise_for_status()
             merge_requests = response.json()
 

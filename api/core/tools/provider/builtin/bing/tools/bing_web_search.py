@@ -1,10 +1,9 @@
 from typing import Any, Union
 from urllib.parse import quote
 
-from requests import get
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class BingSearchTool(BuiltinTool):
@@ -31,7 +30,7 @@ class BingSearchTool(BuiltinTool):
 
         query = quote(query)
         server_url = f'{server_url}?q={query}&mkt={market_code}&count={limit}&responseFilter={",".join(filters)}'
-        response = get(server_url, headers=headers)
+        response = safe_requests.get(server_url, headers=headers)
 
         if response.status_code != 200:
             raise Exception(f"Error {response.status_code}: {response.text}")

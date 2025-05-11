@@ -8,6 +8,7 @@ from configs import dify_config
 from extensions.ext_database import db
 from extensions.ext_redis import redis_client
 from models.dataset import TidbAuthBinding
+from security import safe_requests
 
 
 class TidbService:
@@ -102,7 +103,7 @@ class TidbService:
         :return: The response from the API.
         """
 
-        response = requests.get(f"{api_url}/clusters/{cluster_id}", auth=HTTPDigestAuth(public_key, private_key))
+        response = safe_requests.get(f"{api_url}/clusters/{cluster_id}", auth=HTTPDigestAuth(public_key, private_key))
 
         if response.status_code == 200:
             return response.json()
@@ -163,7 +164,7 @@ class TidbService:
         tidb_serverless_list_map = {item.cluster_id: item for item in tidb_serverless_list}
         cluster_ids = [item.cluster_id for item in tidb_serverless_list]
         params = {"clusterIds": cluster_ids, "view": "FULL"}
-        response = requests.get(
+        response = safe_requests.get(
             f"{api_url}/clusters:batchGet", params=params, auth=HTTPDigestAuth(public_key, private_key)
         )
 

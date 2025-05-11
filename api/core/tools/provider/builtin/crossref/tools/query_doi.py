@@ -1,10 +1,9 @@
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.errors import ToolParameterValidationError
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class CrossRefQueryDOITool(BuiltinTool):
@@ -20,7 +19,7 @@ class CrossRefQueryDOITool(BuiltinTool):
             raise ToolParameterValidationError("doi is required.")
         # doc: https://github.com/CrossRef/rest-api-doc
         url = f"https://api.crossref.org/works/{doi}"
-        response = requests.get(url)
+        response = safe_requests.get(url)
         response.raise_for_status()
         response = response.json()
         message = response.get("message", {})

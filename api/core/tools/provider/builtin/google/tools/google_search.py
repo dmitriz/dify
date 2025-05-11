@@ -1,9 +1,8 @@
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 SERP_API_URL = "https://serpapi.com/search"
 
@@ -34,7 +33,7 @@ class GoogleSearchTool(BuiltinTool):
             "gl": "us",
             "hl": "en",
         }
-        response = requests.get(url=SERP_API_URL, params=params)
+        response = safe_requests.get(url=SERP_API_URL, params=params)
         response.raise_for_status()
         valuable_res = self._parse_response(response.json())
         return self.create_json_message(valuable_res)

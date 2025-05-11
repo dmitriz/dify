@@ -1,10 +1,9 @@
 import json
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class OpenweatherTool(BuiltinTool):
@@ -33,7 +32,7 @@ class OpenweatherTool(BuiltinTool):
                 "units": units,
                 "lang": lang,
             }
-            response = requests.get(url, params=params)
+            response = safe_requests.get(url, params=params)
 
             if response.status_code == 200:
                 data = response.json()

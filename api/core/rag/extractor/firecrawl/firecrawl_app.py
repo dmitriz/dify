@@ -4,6 +4,7 @@ import time
 import requests
 
 from extensions.ext_storage import storage
+from security import safe_requests
 
 
 class FirecrawlApp:
@@ -107,7 +108,7 @@ class FirecrawlApp:
 
     def _get_request(self, url, headers, retries=3, backoff_factor=0.5):
         for attempt in range(retries):
-            response = requests.get(url, headers=headers)
+            response = safe_requests.get(url, headers=headers)
             if response.status_code == 502:
                 time.sleep(backoff_factor * (2**attempt))
             else:

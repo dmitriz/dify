@@ -1,10 +1,9 @@
 import json
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class GeocoderTool(BuiltinTool):
@@ -28,6 +27,6 @@ class GeocoderTool(BuiltinTool):
             "keyWord": keyword,
         }
 
-        result = requests.get(base_url + "?ds=" + json.dumps(params, ensure_ascii=False) + "&tk=" + tk).json()
+        result = safe_requests.get(base_url + "?ds=" + json.dumps(params, ensure_ascii=False) + "&tk=" + tk).json()
 
         return self.create_json_message(result)

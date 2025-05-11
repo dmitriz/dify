@@ -7,7 +7,6 @@ from collections.abc import Generator
 from typing import Optional, Union, cast
 
 import google.auth.transport.requests
-import requests
 import vertexai.generative_models as glm
 from anthropic import AnthropicVertex, Stream
 from anthropic.types import (
@@ -46,6 +45,7 @@ from core.model_runtime.errors.invoke import (
 )
 from core.model_runtime.errors.validate import CredentialsValidateFailedError
 from core.model_runtime.model_providers.__base.large_language_model import LargeLanguageModel
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -337,7 +337,7 @@ class VertexAiLargeLanguageModel(LargeLanguageModel):
                         if not message_content.data.startswith("data:"):
                             # fetch image data from url
                             try:
-                                image_content = requests.get(message_content.data).content
+                                image_content = safe_requests.get(message_content.data).content
                                 with Image.open(io.BytesIO(image_content)) as img:
                                     mime_type = f"image/{img.format.lower()}"
                                 base64_data = base64.b64encode(image_content).decode("utf-8")

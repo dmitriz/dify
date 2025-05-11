@@ -1,9 +1,8 @@
 import urllib.parse
 
-import requests
-
 from core.tools.errors import ToolProviderCredentialValidationError
 from core.tools.provider.builtin_tool_provider import BuiltinToolProviderController
+from security import safe_requests
 
 
 class GaodeProvider(BuiltinToolProviderController):
@@ -13,7 +12,7 @@ class GaodeProvider(BuiltinToolProviderController):
                 raise ToolProviderCredentialValidationError("Gaode API key is required.")
 
             try:
-                response = requests.get(
+                response = safe_requests.get(
                     url="https://restapi.amap.com/v3/geocode/geo?address={address}&key={apikey}".format(
                         address=urllib.parse.quote("广东省广州市天河区广州塔"), apikey=credentials.get("api_key")
                     )

@@ -1,10 +1,9 @@
 import typing
 from urllib.parse import urlencode
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class SerplyApi:
@@ -30,7 +29,7 @@ class SerplyApi:
         }
 
         url = f"{self.base_url}{urlencode(params)}"
-        res = requests.get(
+        res = safe_requests.get(
             url,
             headers=headers,
         )

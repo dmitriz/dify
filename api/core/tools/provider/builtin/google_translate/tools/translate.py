@@ -1,9 +1,8 @@
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class GoogleTranslate(BuiltinTool):
@@ -39,7 +38,7 @@ class GoogleTranslate(BuiltinTool):
                 " Chrome/91.0.4472.124 Safari/537.36"
             }
 
-            response_json = requests.get(url, params=params, headers=headers).json()
+            response_json = safe_requests.get(url, params=params, headers=headers).json()
             result = response_json[0]
             translated_text = "".join([item[0] for item in result if item[0]])
             return str(translated_text)

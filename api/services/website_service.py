@@ -9,6 +9,7 @@ from core.rag.extractor.firecrawl.firecrawl_app import FirecrawlApp
 from extensions.ext_redis import redis_client
 from extensions.ext_storage import storage
 from services.auth.api_key_auth_service import ApiKeyAuthService
+from security import safe_requests
 
 
 class WebsiteService:
@@ -72,7 +73,7 @@ class WebsiteService:
             )
             crawl_sub_pages = options.get("crawl_sub_pages", False)
             if not crawl_sub_pages:
-                response = requests.get(
+                response = safe_requests.get(
                     f"https://r.jina.ai/{url}",
                     headers={"Accept": "application/json", "Authorization": f"Bearer {api_key}"},
                 )
@@ -192,7 +193,7 @@ class WebsiteService:
                 if data:
                     data = json.loads(data.decode("utf-8"))
             elif not job_id:
-                response = requests.get(
+                response = safe_requests.get(
                     f"https://r.jina.ai/{url}",
                     headers={"Accept": "application/json", "Authorization": f"Bearer {api_key}"},
                 )

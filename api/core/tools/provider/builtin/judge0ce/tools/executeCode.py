@@ -1,11 +1,10 @@
 import json
 from typing import Any, Union
-
-import requests
 from httpx import post
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class ExecuteCodeTool(BuiltinTool):
@@ -45,7 +44,7 @@ class ExecuteCodeTool(BuiltinTool):
         url = f"https://judge0-ce.p.rapidapi.com/submissions/{token}"
         headers = {"X-RapidAPI-Key": api_key}
 
-        response = requests.get(url, headers=headers)
+        response = safe_requests.get(url, headers=headers)
         if response.status_code == 200:
             result = response.json()
             return self.create_text_message(

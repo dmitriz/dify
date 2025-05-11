@@ -1,9 +1,8 @@
 from typing import Any
 
-import requests
-
 from core.tools.errors import ToolProviderCredentialValidationError
 from core.tools.provider.builtin_tool_provider import BuiltinToolProviderController
+from security import safe_requests
 
 
 class GitlabProvider(BuiltinToolProviderController):
@@ -23,7 +22,7 @@ class GitlabProvider(BuiltinToolProviderController):
                     "Authorization": f"Bearer {credentials.get('access_tokens')}",
                 }
 
-                response = requests.get(url=f"{site_url}/api/v4/user", headers=headers)
+                response = safe_requests.get(url=f"{site_url}/api/v4/user", headers=headers)
                 if response.status_code != 200:
                     raise ToolProviderCredentialValidationError((response.json()).get("message"))
             except Exception as e:

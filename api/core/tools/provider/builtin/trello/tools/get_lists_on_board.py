@@ -4,6 +4,7 @@ import requests
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class GetListsFromBoardTool(BuiltinTool):
@@ -33,7 +34,7 @@ class GetListsFromBoardTool(BuiltinTool):
         url = f"https://api.trello.com/1/boards/{board_id}/lists?key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
             lists = response.json()
         except requests.exceptions.RequestException as e:

@@ -1,9 +1,8 @@
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 ALPHAVANTAGE_API_URL = "https://www.alphavantage.co/query"
 
@@ -28,7 +27,7 @@ class QueryStockTool(BuiltinTool):
             "datatype": "json",
             "apikey": self.runtime.credentials["api_key"],
         }
-        response = requests.get(url=ALPHAVANTAGE_API_URL, params=params)
+        response = safe_requests.get(url=ALPHAVANTAGE_API_URL, params=params)
         response.raise_for_status()
         result = self._handle_response(response.json())
         return self.create_json_message(result)
