@@ -4,6 +4,7 @@ import requests
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class GetFilteredBoardCardsTool(BuiltinTool):
@@ -34,7 +35,7 @@ class GetFilteredBoardCardsTool(BuiltinTool):
         url = f"https://api.trello.com/1/boards/{board_id}/cards/{filter}?key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
             filtered_cards = response.json()
         except requests.exceptions.RequestException as e:

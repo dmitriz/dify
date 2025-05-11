@@ -4,14 +4,13 @@ from json import dumps as json_dumps
 from json import loads as json_loads
 from json.decoder import JSONDecodeError
 from typing import Optional
-
-from requests import get
 from yaml import YAMLError, safe_load
 
 from core.tools.entities.common_entities import I18nObject
 from core.tools.entities.tool_bundle import ApiToolBundle
 from core.tools.entities.tool_entities import ApiProviderSchemaType, ToolParameter
 from core.tools.errors import ToolApiSchemaError, ToolNotSupportedError, ToolProviderNotFoundError
+from security import safe_requests
 
 
 class ApiBasedToolSchemaParser:
@@ -277,7 +276,7 @@ class ApiBasedToolSchemaParser:
             raise ToolNotSupportedError("Only openapi is supported now.")
 
         # get openapi yaml
-        response = get(api_url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "}, timeout=5)
+        response = safe_requests.get(api_url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "}, timeout=5)
 
         if response.status_code != 200:
             raise ToolProviderNotFoundError("cannot get openapi yaml from url.")

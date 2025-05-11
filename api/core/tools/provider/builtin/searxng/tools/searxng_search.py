@@ -1,9 +1,8 @@
 from typing import Any
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class SearXNGSearchTool(BuiltinTool):
@@ -27,7 +26,7 @@ class SearXNGSearchTool(BuiltinTool):
         if not host:
             raise Exception("SearXNG api is required")
 
-        response = requests.get(
+        response = safe_requests.get(
             host,
             params={
                 "q": tool_parameters.get("query"),

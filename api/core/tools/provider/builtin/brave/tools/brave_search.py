@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 BRAVE_BASE_URL = "https://api.search.brave.com/res/v1/web/search"
 
@@ -53,7 +54,7 @@ class BraveSearchWrapper(BaseModel):
         if req.url is None:
             raise ValueError("prepared url is None, this should not happen")
 
-        response = requests.get(req.url, headers=headers)
+        response = safe_requests.get(req.url, headers=headers)
         if not response.ok:
             raise Exception(f"HTTP error {response.status_code}")
 

@@ -4,6 +4,7 @@ import requests
 
 from core.tools.errors import ToolProviderCredentialValidationError
 from core.tools.provider.builtin_tool_provider import BuiltinToolProviderController
+from security import safe_requests
 
 
 class TrelloProvider(BuiltinToolProviderController):
@@ -21,7 +22,7 @@ class TrelloProvider(BuiltinToolProviderController):
         url = f"https://api.trello.com/1/members/me?key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()  # Raises an HTTPError for bad responses
         except requests.exceptions.HTTPError as e:
             if response.status_code == 401:

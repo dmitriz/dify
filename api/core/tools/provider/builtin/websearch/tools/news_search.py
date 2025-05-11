@@ -1,10 +1,9 @@
 from typing import Any, Union
 from urllib.parse import urlencode
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 BASE_URL = "https://api.serply.io/v1/news/"
 
@@ -31,7 +30,7 @@ class SerplyApi:
         }
 
         url = f"{BASE_URL}{urlencode(params)}"
-        res = requests.get(
+        res = safe_requests.get(
             url,
             headers=headers,
         )
@@ -50,7 +49,7 @@ class SerplyApi:
         for entry in news:
             try:
                 # follow url
-                r = requests.get(entry["link"])
+                r = safe_requests.get(entry["link"])
                 final_link = r.history[-1].headers["Location"]
                 string.append(
                     "\n".join(

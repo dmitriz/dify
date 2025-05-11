@@ -4,6 +4,7 @@ import requests
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class FetchAllBoardsTool(BuiltinTool):
@@ -35,7 +36,7 @@ class FetchAllBoardsTool(BuiltinTool):
         url = f"https://api.trello.com/1/members/me/boards?filter={board_filter}&key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()  # Raises stored HTTPError, if one occurred.
         except requests.exceptions.RequestException as e:
             return self.create_text_message("Failed to fetch boards")

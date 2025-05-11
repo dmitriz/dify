@@ -1,9 +1,8 @@
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 SEARCH_API_URL = "https://www.searchapi.io/api/v1/search"
 
@@ -24,7 +23,7 @@ class SearchAPI:
     def results(self, video_id: str, language: str, **kwargs: Any) -> dict:
         """Run video_id through SearchAPI and return the raw result."""
         params = self.get_params(video_id, language, **kwargs)
-        response = requests.get(
+        response = safe_requests.get(
             url=SEARCH_API_URL,
             params=params,
             headers={"Authorization": f"Bearer {self.searchapi_api_key}"},

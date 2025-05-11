@@ -1,12 +1,11 @@
 import logging
 from typing import Optional
 
-import requests
-
 from configs import dify_config
 from services.recommend_app.buildin.buildin_retrieval import BuildInRecommendAppRetrieval
 from services.recommend_app.recommend_app_base import RecommendAppRetrievalBase
 from services.recommend_app.recommend_app_type import RecommendAppType
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +43,7 @@ class RemoteRecommendAppRetrieval(RecommendAppRetrievalBase):
         """
         domain = dify_config.HOSTED_FETCH_APP_TEMPLATES_REMOTE_DOMAIN
         url = f"{domain}/apps/{app_id}"
-        response = requests.get(url, timeout=(3, 10))
+        response = safe_requests.get(url, timeout=(3, 10))
         if response.status_code != 200:
             return None
 
@@ -59,7 +58,7 @@ class RemoteRecommendAppRetrieval(RecommendAppRetrievalBase):
         """
         domain = dify_config.HOSTED_FETCH_APP_TEMPLATES_REMOTE_DOMAIN
         url = f"{domain}/apps?language={language}"
-        response = requests.get(url, timeout=(3, 10))
+        response = safe_requests.get(url, timeout=(3, 10))
         if response.status_code != 200:
             raise ValueError(f"fetch recommended apps failed, status code: {response.status_code}")
 

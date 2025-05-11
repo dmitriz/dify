@@ -1,7 +1,7 @@
-import requests
 from yarl import URL
 
 from core.tools.errors import ToolProviderCredentialValidationError
+from security import safe_requests
 
 
 class BaseStabilityAuthorization:
@@ -13,7 +13,7 @@ class BaseStabilityAuthorization:
         if not api_key:
             raise ToolProviderCredentialValidationError("API key is required.")
 
-        response = requests.get(
+        response = safe_requests.get(
             URL("https://api.stability.ai") / "v1" / "user" / "account",
             headers=self.generate_authorization_headers(credentials),
             timeout=(5, 30),

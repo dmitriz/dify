@@ -1,10 +1,9 @@
 import time
 from typing import Any, Union
 
-import requests
-
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 def convert_time_str_to_seconds(time_str: str) -> int:
@@ -59,7 +58,7 @@ class CrossRefQueryTitleAPI:
         url = self.query_url_template.format(
             query=query, rows=rows, offset=offset, sort=sort, order=order, mailto=self.mailto
         )
-        response = requests.get(url)
+        response = safe_requests.get(url)
         response.raise_for_status()
         rate_limit = int(response.headers["x-ratelimit-limit"])
         # convert time string to seconds

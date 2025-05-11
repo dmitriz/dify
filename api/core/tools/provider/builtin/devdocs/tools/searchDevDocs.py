@@ -1,10 +1,9 @@
 from typing import Any, Union
-
-import requests
 from pydantic import BaseModel, Field
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class SearchDevDocsInput(BaseModel):
@@ -36,7 +35,7 @@ class SearchDevDocsTool(BuiltinTool):
             return self.create_text_message("Please provide the topic path.")
 
         url = f"https://documents.devdocs.io/{doc}/{topic}.html"
-        response = requests.get(url)
+        response = safe_requests.get(url)
 
         if response.status_code == 200:
             content = response.text

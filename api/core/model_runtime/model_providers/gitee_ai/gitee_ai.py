@@ -1,9 +1,8 @@
 import logging
 
-import requests
-
 from core.model_runtime.errors.validate import CredentialsValidateFailedError
 from core.model_runtime.model_providers.__base.model_provider import ModelProvider
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +22,7 @@ class GiteeAIProvider(ModelProvider):
 
             # send a get request to validate the credentials
             headers = {"Authorization": f"Bearer {api_key}"}
-            response = requests.get("https://ai.gitee.com/api/base/account/me", headers=headers, timeout=(10, 300))
+            response = safe_requests.get("https://ai.gitee.com/api/base/account/me", headers=headers, timeout=(10, 300))
 
             if response.status_code != 200:
                 raise CredentialsValidateFailedError(

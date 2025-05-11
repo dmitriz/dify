@@ -3,7 +3,6 @@ import time
 from typing import Optional
 
 import numpy as np
-import requests
 from huggingface_hub import HfApi, InferenceClient
 
 from core.entities.embedding_type import EmbeddingInputType
@@ -13,6 +12,7 @@ from core.model_runtime.entities.text_embedding_entities import EmbeddingUsage, 
 from core.model_runtime.errors.validate import CredentialsValidateFailedError
 from core.model_runtime.model_providers.__base.text_embedding_model import TextEmbeddingModel
 from core.model_runtime.model_providers.huggingface_hub._common import _CommonHuggingfaceHub
+from security import safe_requests
 
 HUGGINGFACE_ENDPOINT_API = "https://api.endpoints.huggingface.cloud/v2/endpoint/"
 
@@ -168,7 +168,7 @@ class HuggingfaceHubTextEmbeddingModel(_CommonHuggingfaceHub, TextEmbeddingModel
                 "Content-Type": "application/json",
             }
 
-            response = requests.get(url=url, headers=headers)
+            response = safe_requests.get(url=url, headers=headers)
 
             if response.status_code != 200:
                 raise ValueError("User Name or Organization Name is invalid.")

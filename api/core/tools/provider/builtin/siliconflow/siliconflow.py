@@ -1,7 +1,7 @@
-import requests
 
 from core.tools.errors import ToolProviderCredentialValidationError
 from core.tools.provider.builtin_tool_provider import BuiltinToolProviderController
+from security import safe_requests
 
 
 class SiliconflowProvider(BuiltinToolProviderController):
@@ -12,6 +12,6 @@ class SiliconflowProvider(BuiltinToolProviderController):
             "authorization": f"Bearer {credentials.get('siliconFlow_api_key')}",
         }
 
-        response = requests.get(url, headers=headers)
+        response = safe_requests.get(url, headers=headers)
         if response.status_code != 200:
             raise ToolProviderCredentialValidationError("SiliconFlow API key is invalid")

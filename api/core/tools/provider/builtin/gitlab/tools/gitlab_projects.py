@@ -5,6 +5,7 @@ import requests
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class GitlabProjectsTool(BuiltinTool):
@@ -50,7 +51,7 @@ class GitlabProjectsTool(BuiltinTool):
             else:
                 projects_url = f"{domain}/api/v4/projects?page={page}&per_page={page_size}"
 
-            response = requests.get(projects_url, headers=headers)
+            response = safe_requests.get(projects_url, headers=headers)
             response.raise_for_status()
             projects = response.json()
 

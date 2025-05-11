@@ -7,7 +7,6 @@ from typing import Optional, Union, cast
 
 import google.ai.generativelanguage as glm
 import google.generativeai as genai
-import requests
 from google.api_core import exceptions
 from google.generativeai.client import _ClientManager
 from google.generativeai.types import ContentType, GenerateContentResponse
@@ -35,6 +34,7 @@ from core.model_runtime.errors.invoke import (
 )
 from core.model_runtime.errors.validate import CredentialsValidateFailedError
 from core.model_runtime.model_providers.__base.large_language_model import LargeLanguageModel
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -366,7 +366,7 @@ class GoogleLargeLanguageModel(LargeLanguageModel):
                         else:
                             # fetch image data from url
                             try:
-                                image_content = requests.get(message_content.data).content
+                                image_content = safe_requests.get(message_content.data).content
                                 with Image.open(io.BytesIO(image_content)) as img:
                                     mime_type = f"image/{img.format.lower()}"
                                 base64_data = base64.b64encode(image_content).decode("utf-8")

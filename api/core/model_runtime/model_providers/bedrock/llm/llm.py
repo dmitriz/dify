@@ -8,7 +8,6 @@ from typing import Optional, Union, cast
 
 # 3rd import
 import boto3
-import requests
 from botocore.config import Config
 from botocore.exceptions import (
     ClientError,
@@ -42,6 +41,7 @@ from core.model_runtime.errors.invoke import (
 )
 from core.model_runtime.errors.validate import CredentialsValidateFailedError
 from core.model_runtime.model_providers.__base.large_language_model import LargeLanguageModel
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 ANTHROPIC_BLOCK_MODE_PROMPT = """You should always follow the instructions and output a valid {{block}} object.
@@ -443,7 +443,7 @@ class BedrockLargeLanguageModel(LargeLanguageModel):
                             # fetch image data from url
                             try:
                                 url = message_content.data
-                                image_content = requests.get(url).content
+                                image_content = safe_requests.get(url).content
                                 if "?" in url:
                                     url = url.split("?")[0]
                                 mime_type, _ = mimetypes.guess_type(url)

@@ -1,7 +1,7 @@
-import requests
 
 from core.tools.errors import ToolProviderCredentialValidationError
 from core.tools.provider.builtin_tool_provider import BuiltinToolProviderController
+from security import safe_requests
 
 
 class GithubProvider(BuiltinToolProviderController):
@@ -21,7 +21,7 @@ class GithubProvider(BuiltinToolProviderController):
                     "X-GitHub-Api-Version": api_version,
                 }
 
-                response = requests.get(
+                response = safe_requests.get(
                     url="https://api.github.com/search/users?q={account}".format(account="charli117"), headers=headers
                 )
                 if response.status_code != 200:

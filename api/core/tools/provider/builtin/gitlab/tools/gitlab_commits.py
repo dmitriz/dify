@@ -7,6 +7,7 @@ import requests
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class GitlabCommitsTool(BuiltinTool):
@@ -71,7 +72,7 @@ class GitlabCommitsTool(BuiltinTool):
             if employee:
                 params["author"] = employee
 
-            commits_response = requests.get(commits_url, headers=headers, params=params)
+            commits_response = safe_requests.get(commits_url, headers=headers, params=params)
             commits_response.raise_for_status()
             commits = commits_response.json()
 
@@ -81,7 +82,7 @@ class GitlabCommitsTool(BuiltinTool):
 
                 diff_url = f"{domain}/api/v4/projects/{encoded_repository}/repository/commits/{commit_sha}/diff"
 
-                diff_response = requests.get(diff_url, headers=headers)
+                diff_response = safe_requests.get(diff_url, headers=headers)
                 diff_response.raise_for_status()
                 diffs = diff_response.json()
 

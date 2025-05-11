@@ -7,12 +7,12 @@ from time import sleep, time
 from typing import Any
 
 from httpx import get, post
-from requests import get as requests_get
 from yarl import URL
 
 from core.tools.entities.common_entities import I18nObject
 from core.tools.entities.tool_entities import ToolInvokeMessage, ToolParameter, ToolParameterOption
 from core.tools.tool.builtin_tool import BuiltinTool
+from security import safe_requests
 
 
 class AIPPTGenerateToolAdapter:
@@ -143,7 +143,7 @@ class AIPPTGenerateToolAdapter:
             "x-token": self._get_api_token(credentials=self._tool.runtime.credentials, user_id=user_id),
         }
 
-        response = requests_get(url=api_url, headers=headers, stream=True, timeout=(10, 60))
+        response = safe_requests.get(url=api_url, headers=headers, stream=True, timeout=(10, 60))
 
         if response.status_code != 200:
             raise Exception(f"Failed to connect to aippt: {response.text}")
@@ -187,7 +187,7 @@ class AIPPTGenerateToolAdapter:
             "x-token": self._get_api_token(credentials=self._tool.runtime.credentials, user_id=user_id),
         }
 
-        response = requests_get(url=api_url, headers=headers, stream=True, timeout=(10, 60))
+        response = safe_requests.get(url=api_url, headers=headers, stream=True, timeout=(10, 60))
 
         if response.status_code != 200:
             raise Exception(f"Failed to connect to aippt: {response.text}")
