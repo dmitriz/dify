@@ -18,7 +18,7 @@ class FirecrawlApp:
         json_data = {"url": url}
         if params:
             json_data.update(params)
-        response = requests.post(f"{self.base_url}/v0/scrape", headers=headers, json=json_data)
+        response = requests.post(f"{self.base_url}/v0/scrape", headers=headers, json=json_data, timeout=60)
         if response.status_code == 200:
             response = response.json()
             if response["success"] == True:
@@ -98,7 +98,7 @@ class FirecrawlApp:
 
     def _post_request(self, url, data, headers, retries=3, backoff_factor=0.5):
         for attempt in range(retries):
-            response = requests.post(url, headers=headers, json=data)
+            response = requests.post(url, headers=headers, json=data, timeout=60)
             if response.status_code == 502:
                 time.sleep(backoff_factor * (2**attempt))
             else:
@@ -107,7 +107,7 @@ class FirecrawlApp:
 
     def _get_request(self, url, headers, retries=3, backoff_factor=0.5):
         for attempt in range(retries):
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=60)
             if response.status_code == 502:
                 time.sleep(backoff_factor * (2**attempt))
             else:

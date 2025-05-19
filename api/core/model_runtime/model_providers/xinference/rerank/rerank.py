@@ -180,7 +180,7 @@ class RESTfulRerankModelHandleWithoutExtraParameter(RESTfulRerankModelHandle):
 
         import requests
 
-        response = requests.post(url, json=request_body, headers=self.auth_headers)
+        response = requests.post(url, json=request_body, headers=self.auth_headers, timeout=60)
         if response.status_code != 200:
             raise InvokeServerUnavailableError(f"Failed to rerank documents, detail: {response.json()['detail']}")
         response_data = response.json()

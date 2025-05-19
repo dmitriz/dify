@@ -21,7 +21,7 @@ class TrelloProvider(BuiltinToolProviderController):
         url = f"https://api.trello.com/1/members/me?key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             response.raise_for_status()  # Raises an HTTPError for bad responses
         except requests.exceptions.HTTPError as e:
             if response.status_code == 401:

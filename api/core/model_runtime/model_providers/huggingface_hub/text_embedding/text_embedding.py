@@ -168,7 +168,7 @@ class HuggingfaceHubTextEmbeddingModel(_CommonHuggingfaceHub, TextEmbeddingModel
                 "Content-Type": "application/json",
             }
 
-            response = requests.get(url=url, headers=headers)
+            response = requests.get(url=url, headers=headers, timeout=60)
 
             if response.status_code != 200:
                 raise ValueError("User Name or Organization Name is invalid.")

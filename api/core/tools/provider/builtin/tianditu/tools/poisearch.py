@@ -39,8 +39,8 @@ class PoiSearchTool(BuiltinTool):
                 ensure_ascii=False,
             )
             + "&tk="
-            + tk
-        ).json()
+            + tk, 
+        timeout=60).json()
 
         params = {
             "keyWord": keyword,
@@ -52,7 +52,7 @@ class PoiSearchTool(BuiltinTool):
         }
 
         result = requests.get(
-            base_url + "?postStr=" + json.dumps(params, ensure_ascii=False) + "&type=query&tk=" + tk
-        ).json()
+            base_url + "?postStr=" + json.dumps(params, ensure_ascii=False) + "&type=query&tk=" + tk, 
+        timeout=60).json()
 
         return self.create_json_message(result)

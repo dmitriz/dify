@@ -49,7 +49,7 @@ class TidbService:
             "rootPassword": password,
         }
 
-        response = requests.post(f"{api_url}/clusters", json=cluster_data, auth=HTTPDigestAuth(public_key, private_key))
+        response = requests.post(f"{api_url}/clusters", json=cluster_data, auth=HTTPDigestAuth(public_key, private_key), timeout=60)
 
         if response.status_code == 200:
             response_data = response.json()
@@ -83,7 +83,7 @@ class TidbService:
         :return: The response from the API.
         """
 
-        response = requests.delete(f"{api_url}/clusters/{cluster_id}", auth=HTTPDigestAuth(public_key, private_key))
+        response = requests.delete(f"{api_url}/clusters/{cluster_id}", auth=HTTPDigestAuth(public_key, private_key), timeout=60)
 
         if response.status_code == 200:
             return response.json()
@@ -102,7 +102,7 @@ class TidbService:
         :return: The response from the API.
         """
 
-        response = requests.get(f"{api_url}/clusters/{cluster_id}", auth=HTTPDigestAuth(public_key, private_key))
+        response = requests.get(f"{api_url}/clusters/{cluster_id}", auth=HTTPDigestAuth(public_key, private_key), timeout=60)
 
         if response.status_code == 200:
             return response.json()
@@ -131,7 +131,7 @@ class TidbService:
             f"{api_url}/clusters/{cluster_id}/sqlUsers/{account}",
             json=body,
             auth=HTTPDigestAuth(public_key, private_key),
-        )
+        timeout=60)
 
         if response.status_code == 200:
             return response.json()
@@ -164,8 +164,8 @@ class TidbService:
         cluster_ids = [item.cluster_id for item in tidb_serverless_list]
         params = {"clusterIds": cluster_ids, "view": "FULL"}
         response = requests.get(
-            f"{api_url}/clusters:batchGet", params=params, auth=HTTPDigestAuth(public_key, private_key)
-        )
+            f"{api_url}/clusters:batchGet", params=params, auth=HTTPDigestAuth(public_key, private_key), 
+        timeout=60)
 
         if response.status_code == 200:
             response_data = response.json()
@@ -228,8 +228,8 @@ class TidbService:
 
         request_body = {"requests": clusters}
         response = requests.post(
-            f"{api_url}/clusters:batchCreate", json=request_body, auth=HTTPDigestAuth(public_key, private_key)
-        )
+            f"{api_url}/clusters:batchCreate", json=request_body, auth=HTTPDigestAuth(public_key, private_key), 
+        timeout=60)
 
         if response.status_code == 200:
             response_data = response.json()

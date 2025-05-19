@@ -57,7 +57,7 @@ class PerplexityAITool(BuiltinTool):
             elif isinstance(tool_parameters["search_domain_filter"], list):
                 payload["search_domain_filter"] = tool_parameters["search_domain_filter"]
 
-        response = requests.post(url=PERPLEXITY_API_URL, json=payload, headers=headers)
+        response = requests.post(url=PERPLEXITY_API_URL, json=payload, headers=headers, timeout=60)
         response.raise_for_status()
         valuable_res = self._parse_response(response.json())
 

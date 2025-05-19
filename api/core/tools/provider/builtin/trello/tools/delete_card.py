@@ -33,7 +33,7 @@ class DeleteCardByIdTool(BuiltinTool):
         url = f"https://api.trello.com/1/cards/{card_id}?key={api_key}&token={token}"
 
         try:
-            response = requests.delete(url)
+            response = requests.delete(url, timeout=60)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             return self.create_text_message("Failed to delete card")

@@ -83,7 +83,7 @@ class JinaTextEmbeddingModel(TextEmbeddingModel):
         data = self._to_payload(model=model, texts=texts, credentials=credentials, input_type=input_type)
 
         try:
-            response = post(url, headers=headers, data=dumps(data))
+            response = post(url, headers=headers, data=dumps(data), timeout=60)
         except Exception as e:
             raise InvokeConnectionError(str(e))
 

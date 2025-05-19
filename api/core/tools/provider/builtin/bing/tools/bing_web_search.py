@@ -31,7 +31,7 @@ class BingSearchTool(BuiltinTool):
 
         query = quote(query)
         server_url = f'{server_url}?q={query}&mkt={market_code}&count={limit}&responseFilter={",".join(filters)}'
-        response = get(server_url, headers=headers)
+        response = get(server_url, headers=headers, timeout=60)
 
         if response.status_code != 200:
             raise Exception(f"Error {response.status_code}: {response.text}")

@@ -28,7 +28,7 @@ class SearchAPI:
             url=SEARCH_API_URL,
             params=params,
             headers={"Authorization": f"Bearer {self.searchapi_api_key}"},
-        )
+        timeout=60)
         response.raise_for_status()
         return response.json()
 

@@ -38,7 +38,7 @@ class StableDiffusionTool(BuiltinTool):
             "num_inference_steps": tool_parameters.get("num_inference_steps", 20),
         }
 
-        response = requests.post(SILICONFLOW_API_URL, json=payload, headers=headers)
+        response = requests.post(SILICONFLOW_API_URL, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
             return self.create_text_message(f"Got Error Response:{response.text}")
 

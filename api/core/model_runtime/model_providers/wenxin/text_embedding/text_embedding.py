@@ -36,7 +36,7 @@ class WenxinTextEmbedding(_CommonWenxin, TextEmbedding):
             "Content-Type": "application/json",
         }
 
-        resp = post(url, data=dumps(body), headers=headers)
+        resp = post(url, data=dumps(body), headers=headers, timeout=60)
         if resp.status_code != 200:
             raise InternalServerError(f"Failed to invoke ernie bot: {resp.text}")
         return self._handle_embed_response(model, resp)

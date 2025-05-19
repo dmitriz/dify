@@ -40,7 +40,7 @@ class TavilyExtract:
         # Process parameters
         processed_params = self._process_params(params)
 
-        response = requests.post(f"{TAVILY_API_URL}/extract", json=processed_params)
+        response = requests.post(f"{TAVILY_API_URL}/extract", json=processed_params, timeout=60)
         response.raise_for_status()
         return response.json()
 

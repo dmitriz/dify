@@ -45,7 +45,7 @@ class ExecuteCodeTool(BuiltinTool):
         url = f"https://judge0-ce.p.rapidapi.com/submissions/{token}"
         headers = {"X-RapidAPI-Key": api_key}
 
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=60)
         if response.status_code == 200:
             result = response.json()
             return self.create_text_message(

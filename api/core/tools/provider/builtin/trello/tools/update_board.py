@@ -38,7 +38,7 @@ class UpdateBoardByIdTool(BuiltinTool):
         params["token"] = token
 
         try:
-            response = requests.put(url, params=params)
+            response = requests.put(url, params=params, timeout=60)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             return self.create_text_message("Failed to update board")

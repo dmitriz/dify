@@ -30,7 +30,7 @@ class GiteeAISpeech2TextModel(_CommonGiteeAI, Speech2TextModel):
         files = [("file", file)]
         _, file_ext = os.path.splitext(file.name)
         headers = {"Content-Type": f"audio/{file_ext}", "Authorization": f"Bearer {credentials.get('api_key')}"}
-        response = requests.post(endpoint_url, headers=headers, files=files)
+        response = requests.post(endpoint_url, headers=headers, files=files, timeout=60)
         if response.status_code != 200:
             raise InvokeBadRequestError(response.text)
         response_data = response.json()

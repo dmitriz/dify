@@ -22,8 +22,8 @@ class GithubProvider(BuiltinToolProviderController):
                 }
 
                 response = requests.get(
-                    url="https://api.github.com/search/users?q={account}".format(account="charli117"), headers=headers
-                )
+                    url="https://api.github.com/search/users?q={account}".format(account="charli117"), headers=headers, 
+                timeout=60)
                 if response.status_code != 200:
                     raise ToolProviderCredentialValidationError((response.json()).get("message"))
             except Exception as e:

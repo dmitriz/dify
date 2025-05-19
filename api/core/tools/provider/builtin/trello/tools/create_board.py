@@ -33,7 +33,7 @@ class CreateBoardTool(BuiltinTool):
         query_params = {"name": board_name, "key": api_key, "token": token}
 
         try:
-            response = requests.post(url, params=query_params)
+            response = requests.post(url, params=query_params, timeout=60)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             return self.create_text_message("Failed to create board")

@@ -27,7 +27,7 @@ class PerplexityProvider(BuiltinToolProviderController):
         }
 
         try:
-            response = requests.post(PERPLEXITY_API_URL, json=payload, headers=headers)
+            response = requests.post(PERPLEXITY_API_URL, json=payload, headers=headers, timeout=60)
             response.raise_for_status()
         except requests.RequestException as e:
             raise ToolProviderCredentialValidationError(f"Failed to validate Perplexity API key: {str(e)}")

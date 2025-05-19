@@ -71,7 +71,7 @@ class GitlabCommitsTool(BuiltinTool):
             if employee:
                 params["author"] = employee
 
-            commits_response = requests.get(commits_url, headers=headers, params=params)
+            commits_response = requests.get(commits_url, headers=headers, params=params, timeout=60)
             commits_response.raise_for_status()
             commits = commits_response.json()
 
@@ -81,7 +81,7 @@ class GitlabCommitsTool(BuiltinTool):
 
                 diff_url = f"{domain}/api/v4/projects/{encoded_repository}/repository/commits/{commit_sha}/diff"
 
-                diff_response = requests.get(diff_url, headers=headers)
+                diff_response = requests.get(diff_url, headers=headers, timeout=60)
                 diff_response.raise_for_status()
                 diffs = diff_response.json()
 

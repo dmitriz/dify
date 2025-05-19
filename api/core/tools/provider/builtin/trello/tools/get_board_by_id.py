@@ -33,7 +33,7 @@ class GetBoardByIdTool(BuiltinTool):
         url = f"https://api.trello.com/1/boards/{board_id}?key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             response.raise_for_status()
             board = response.json()
             board_details = self.format_board_details(board)

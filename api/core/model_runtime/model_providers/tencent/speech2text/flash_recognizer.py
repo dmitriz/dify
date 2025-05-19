@@ -160,5 +160,5 @@ class FlashRecognizer:
         header = self._build_header()
         query_arr = self._create_query_arr(req)
         req_url = self._build_req_with_signature(self.credential.secret_key, query_arr, header)
-        r = requests.post(req_url, headers=header, data=data)
+        r = requests.post(req_url, headers=header, data=data, timeout=60)
         return r.text

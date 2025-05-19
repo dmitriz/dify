@@ -52,7 +52,7 @@ class BaiduTranslateTool(BuiltinTool, BaiduTranslateToolBase):
             "sign": sign,
         }
         try:
-            response = requests.post(BAIDU_TRANSLATE_URL, params=params, headers=headers)
+            response = requests.post(BAIDU_TRANSLATE_URL, params=params, headers=headers, timeout=60)
             result = response.json()
 
             if "trans_result" in result:

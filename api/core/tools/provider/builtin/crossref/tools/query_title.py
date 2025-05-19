@@ -59,7 +59,7 @@ class CrossRefQueryTitleAPI:
         url = self.query_url_template.format(
             query=query, rows=rows, offset=offset, sort=sort, order=order, mailto=self.mailto
         )
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         response.raise_for_status()
         rate_limit = int(response.headers["x-ratelimit-limit"])
         # convert time string to seconds

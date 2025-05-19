@@ -75,7 +75,7 @@ class WebsiteService:
                 response = requests.get(
                     f"https://r.jina.ai/{url}",
                     headers={"Accept": "application/json", "Authorization": f"Bearer {api_key}"},
-                )
+                timeout=60)
                 if response.json().get("code") != 200:
                     raise ValueError("Failed to crawl")
                 return {"status": "active", "data": response.json().get("data")}
@@ -91,7 +91,7 @@ class WebsiteService:
                         "Content-Type": "application/json",
                         "Authorization": f"Bearer {api_key}",
                     },
-                )
+                timeout=60)
                 if response.json().get("code") != 200:
                     raise ValueError("Failed to crawl")
                 return {"status": "active", "job_id": response.json().get("data", {}).get("taskId")}
@@ -131,7 +131,7 @@ class WebsiteService:
                 "https://adaptivecrawlstatus-kir3wx7b3a-uc.a.run.app",
                 headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
                 json={"taskId": job_id},
-            )
+            timeout=60)
             data = response.json().get("data", {})
             crawl_status_data = {
                 "status": data.get("status", "active"),
@@ -147,7 +147,7 @@ class WebsiteService:
                     "https://adaptivecrawlstatus-kir3wx7b3a-uc.a.run.app",
                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
                     json={"taskId": job_id, "urls": list(data.get("processed", {}).keys())},
-                )
+                timeout=60)
                 data = response.json().get("data", {})
                 formatted_data = [
                     {
@@ -195,7 +195,7 @@ class WebsiteService:
                 response = requests.get(
                     f"https://r.jina.ai/{url}",
                     headers={"Accept": "application/json", "Authorization": f"Bearer {api_key}"},
-                )
+                timeout=60)
                 if response.json().get("code") != 200:
                     raise ValueError("Failed to crawl")
                 return response.json().get("data")
@@ -205,7 +205,7 @@ class WebsiteService:
                     "https://adaptivecrawlstatus-kir3wx7b3a-uc.a.run.app",
                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
                     json={"taskId": job_id},
-                )
+                timeout=60)
                 data = response.json().get("data", {})
                 if data.get("status") != "completed":
                     raise ValueError("Crawl job is not completed")
@@ -214,7 +214,7 @@ class WebsiteService:
                     "https://adaptivecrawlstatus-kir3wx7b3a-uc.a.run.app",
                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
                     json={"taskId": job_id, "urls": list(data.get("processed", {}).keys())},
-                )
+                timeout=60)
                 data = response.json().get("data", {})
                 for item in data.get("processed", {}).values():
                     if item.get("data", {}).get("url") == url:

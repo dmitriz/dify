@@ -58,7 +58,7 @@ class GitlabFilesTool(BuiltinTool):
                     return self.create_text_message(f"Project '{identifier}' not found.")
                 tree_url = f"{domain}/api/v4/projects/{project_id}/repository/tree?path={path}&ref={branch}"
 
-            response = requests.get(tree_url, headers=headers)
+            response = requests.get(tree_url, headers=headers, timeout=60)
             response.raise_for_status()
             items = response.json()
 
@@ -79,7 +79,7 @@ class GitlabFilesTool(BuiltinTool):
                             f"{domain}/api/v4/projects/{project_id}/repository/files/{item_path}/raw?ref={branch}"
                         )
 
-                    file_response = requests.get(file_url, headers=headers)
+                    file_response = requests.get(file_url, headers=headers, timeout=60)
                     file_response.raise_for_status()
                     file_content = file_response.text
                     results.append({"path": item_path, "branch": branch, "content": file_content})
@@ -92,7 +92,7 @@ class GitlabFilesTool(BuiltinTool):
         headers = {"PRIVATE-TOKEN": access_token}
         try:
             url = f"{site_url}/api/v4/projects?search={project_name}"
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=60)
             response.raise_for_status()
             projects = response.json()
             for project in projects:

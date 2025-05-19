@@ -29,7 +29,7 @@ class SendPrivateMsg(BuiltinTool):
                 url,
                 json={"user_id": send_user_id, "message": message, "auto_escape": auto_escape},
                 headers={"Authorization": "Bearer " + self.runtime.credentials["access_token"]},
-            )
+            timeout=60)
 
             if resp.status_code != 200:
                 return self.create_json_message({"error": f"Failed to send private message: {resp.text}"})

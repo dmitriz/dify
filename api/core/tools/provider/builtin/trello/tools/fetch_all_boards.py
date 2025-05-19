@@ -35,7 +35,7 @@ class FetchAllBoardsTool(BuiltinTool):
         url = f"https://api.trello.com/1/members/me/boards?filter={board_filter}&key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             response.raise_for_status()  # Raises stored HTTPError, if one occurred.
         except requests.exceptions.RequestException as e:
             return self.create_text_message("Failed to fetch boards")

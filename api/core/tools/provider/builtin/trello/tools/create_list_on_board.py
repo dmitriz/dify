@@ -35,7 +35,7 @@ class CreateListOnBoardTool(BuiltinTool):
         params = {"name": list_name, "key": api_key, "token": token}
 
         try:
-            response = requests.post(url, params=params)
+            response = requests.post(url, params=params, timeout=60)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             return self.create_text_message("Failed to create list")

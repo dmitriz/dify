@@ -34,7 +34,7 @@ class SerplyApi:
         res = requests.get(
             url,
             headers=headers,
-        )
+        timeout=60)
         res = res.json()
 
         return self.parse_results(res)

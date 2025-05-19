@@ -56,7 +56,7 @@ class NvidiaTextEmbeddingModel(TextEmbeddingModel):
         data = {"model": model, "input": texts[0], "input_type": "query"}
 
         try:
-            response = post(url, headers=headers, data=dumps(data))
+            response = post(url, headers=headers, data=dumps(data), timeout=60)
         except Exception as e:
             raise InvokeConnectionError(str(e))
 

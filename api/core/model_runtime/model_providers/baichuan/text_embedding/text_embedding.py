@@ -100,7 +100,7 @@ class BaichuanTextEmbeddingModel(TextEmbeddingModel):
         data = {"model": "Baichuan-Text-Embedding", "input": texts}
 
         try:
-            response = post(url, headers=headers, data=dumps(data))
+            response = post(url, headers=headers, data=dumps(data), timeout=60)
         except Exception as e:
             raise InvokeConnectionError(str(e))
 

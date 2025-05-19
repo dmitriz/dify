@@ -36,13 +36,13 @@ class PoiSearchTool(BuiltinTool):
                 ensure_ascii=False,
             )
             + "&tk="
-            + tk
-        ).json()
+            + tk, 
+        timeout=60).json()
         coords = keyword_coords["location"]["lon"] + "," + keyword_coords["location"]["lat"]
 
         result = requests.get(
-            base_url + "?center=" + coords + "&markers=" + coords + "&width=400&height=300&zoom=14&tk=" + tk
-        ).content
+            base_url + "?center=" + coords + "&markers=" + coords + "&width=400&height=300&zoom=14&tk=" + tk, 
+        timeout=60).content
 
         return self.create_blob_message(
             blob=result, meta={"mime_type": "image/png"}, save_as=self.VariableKey.IMAGE.value

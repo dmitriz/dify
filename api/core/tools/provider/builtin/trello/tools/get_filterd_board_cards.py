@@ -34,7 +34,7 @@ class GetFilteredBoardCardsTool(BuiltinTool):
         url = f"https://api.trello.com/1/boards/{board_id}/cards/{filter}?key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             response.raise_for_status()
             filtered_cards = response.json()
         except requests.exceptions.RequestException as e:

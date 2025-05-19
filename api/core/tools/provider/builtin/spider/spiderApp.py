@@ -205,13 +205,13 @@ class Spider:
         }
 
     def _post_request(self, url: str, data, headers, stream=False):
-        return requests.post(url, headers=headers, json=data, stream=stream)
+        return requests.post(url, headers=headers, json=data, stream=stream, timeout=60)
 
     def _get_request(self, url: str, headers, stream=False):
-        return requests.get(url, headers=headers, stream=stream)
+        return requests.get(url, headers=headers, stream=stream, timeout=60)
 
     def _delete_request(self, url: str, headers, stream=False):
-        return requests.delete(url, headers=headers, stream=stream)
+        return requests.delete(url, headers=headers, stream=stream, timeout=60)
 
     def _handle_error(self, response, action):
         if response.status_code in {402, 409, 500}:

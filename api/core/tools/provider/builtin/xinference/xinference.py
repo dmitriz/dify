@@ -19,6 +19,6 @@ class XinferenceProvider(BuiltinToolProviderController):
             f"{base_url}/sdapi/v1/options",
             headers=headers,
             json={"sd_model_checkpoint": model},
-        )
+        timeout=60)
         if res.status_code != 200:
             raise ToolProviderCredentialValidationError("Xinference API key is invalid")

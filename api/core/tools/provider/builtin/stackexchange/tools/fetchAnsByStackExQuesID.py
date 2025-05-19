@@ -31,7 +31,7 @@ class FetchAnsByStackExQuesIDTool(BuiltinTool):
             "page": input.page,
         }
 
-        response = requests.get(f"https://api.stackexchange.com/2.3/questions/{input.id}/answers", params=params)
+        response = requests.get(f"https://api.stackexchange.com/2.3/questions/{input.id}/answers", params=params, timeout=60)
 
         if response.status_code == 200:
             return self.create_text_message(self.summary(user_id=user_id, content=response.text))

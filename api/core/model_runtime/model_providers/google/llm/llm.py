@@ -366,7 +366,7 @@ class GoogleLargeLanguageModel(LargeLanguageModel):
                         else:
                             # fetch image data from url
                             try:
-                                image_content = requests.get(message_content.data).content
+                                image_content = requests.get(message_content.data, timeout=60).content
                                 with Image.open(io.BytesIO(image_content)) as img:
                                     mime_type = f"image/{img.format.lower()}"
                                 base64_data = base64.b64encode(image_content).decode("utf-8")

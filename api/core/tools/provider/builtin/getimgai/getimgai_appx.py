@@ -31,7 +31,7 @@ class GetImgAIApp:
     ) -> Mapping[str, Any] | None:
         for i in range(retries):
             try:
-                response = requests.request(method, url, json=data, headers=headers)
+                response = requests.request(method, url, json=data, headers=headers, timeout=60)
                 response.raise_for_status()
                 return response.json()
             except requests.exceptions.RequestException as e:

@@ -16,8 +16,8 @@ class DifyClient:
 
         url = f"{self.base_url}{endpoint}"
         response = requests.request(
-            method, url, json=json, params=params, headers=headers, stream=stream
-        )
+            method, url, json=json, params=params, headers=headers, stream=stream, 
+        timeout=60)
 
         return response
 
@@ -26,8 +26,8 @@ class DifyClient:
 
         url = f"{self.base_url}{endpoint}"
         response = requests.request(
-            method, url, data=data, headers=headers, files=files
-        )
+            method, url, data=data, headers=headers, files=files, 
+        timeout=60)
 
         return response
 

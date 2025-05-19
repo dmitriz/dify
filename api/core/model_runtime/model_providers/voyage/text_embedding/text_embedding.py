@@ -60,7 +60,7 @@ class VoyageTextEmbeddingModel(TextEmbeddingModel):
         data = {"model": model, "input": texts, "input_type": voyage_input_type}
 
         try:
-            response = requests.post(url, headers=headers, data=dumps(data))
+            response = requests.post(url, headers=headers, data=dumps(data), timeout=60)
         except Exception as e:
             raise InvokeConnectionError(str(e))
 

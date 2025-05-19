@@ -53,7 +53,7 @@ class OpenLLMTextEmbeddingModel(TextEmbeddingModel):
 
         data = texts
         try:
-            response = post(url, headers=headers, data=dumps(data))
+            response = post(url, headers=headers, data=dumps(data), timeout=60)
         except (ConnectionError, InvalidSchema, MissingSchema) as e:
             # cloud not connect to the server
             raise InvokeAuthorizationError(f"Invalid server URL: {e}")

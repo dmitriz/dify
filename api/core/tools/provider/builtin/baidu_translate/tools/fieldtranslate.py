@@ -59,7 +59,7 @@ class BaiduFieldTranslateTool(BuiltinTool, BaiduTranslateToolBase):
             "needIntervene": 1,
         }
         try:
-            response = requests.post(BAIDU_FIELD_TRANSLATE_URL, headers=headers, data=params)
+            response = requests.post(BAIDU_FIELD_TRANSLATE_URL, headers=headers, data=params, timeout=60)
             result = response.json()
 
             if "trans_result" in result:

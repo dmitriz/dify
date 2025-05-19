@@ -13,7 +13,7 @@ class FalProvider(BuiltinToolProviderController):
         }
         data = {"prompt": "Cat"}
 
-        response = requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data, headers=headers, timeout=60)
         if response.status_code == 401:
             raise ToolProviderCredentialValidationError("FAL API key is invalid")
         elif response.status_code != 200:

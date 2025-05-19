@@ -28,7 +28,7 @@ class QueryStockTool(BuiltinTool):
             "datatype": "json",
             "apikey": self.runtime.credentials["api_key"],
         }
-        response = requests.get(url=ALPHAVANTAGE_API_URL, params=params)
+        response = requests.get(url=ALPHAVANTAGE_API_URL, params=params, timeout=60)
         response.raise_for_status()
         result = self._handle_response(response.json())
         return self.create_json_message(result)

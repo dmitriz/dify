@@ -20,7 +20,7 @@ class CrossRefQueryDOITool(BuiltinTool):
             raise ToolParameterValidationError("doi is required.")
         # doc: https://github.com/CrossRef/rest-api-doc
         url = f"https://api.crossref.org/works/{doi}"
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         response.raise_for_status()
         response = response.json()
         message = response.get("message", {})

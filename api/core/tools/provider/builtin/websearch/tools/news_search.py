@@ -34,7 +34,7 @@ class SerplyApi:
         res = requests.get(
             url,
             headers=headers,
-        )
+        timeout=60)
         res = res.json()
 
         return self.parse_results(res)
@@ -50,7 +50,7 @@ class SerplyApi:
         for entry in news:
             try:
                 # follow url
-                r = requests.get(entry["link"])
+                r = requests.get(entry["link"], timeout=60)
                 final_link = r.history[-1].headers["Location"]
                 string.append(
                     "\n".join(

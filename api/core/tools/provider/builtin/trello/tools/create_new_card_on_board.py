@@ -34,7 +34,7 @@ class CreateNewCardOnBoardTool(BuiltinTool):
         params = {**tool_parameters, "key": api_key, "token": token}
 
         try:
-            response = requests.post(url, params=params)
+            response = requests.post(url, params=params, timeout=60)
             response.raise_for_status()
             new_card = response.json()
         except requests.exceptions.RequestException as e:

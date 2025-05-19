@@ -58,7 +58,7 @@ class MixedBreadTextEmbeddingModel(TextEmbeddingModel):
         data = {"model": model, "input": texts}
 
         try:
-            response = requests.post(url, headers=headers, data=dumps(data))
+            response = requests.post(url, headers=headers, data=dumps(data), timeout=60)
         except Exception as e:
             raise InvokeConnectionError(str(e))
 

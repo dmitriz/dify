@@ -30,7 +30,7 @@ class Flux11ProTool(BuiltinTool):
 
         url = "https://fal.run/fal-ai/flux-pro/v1.1"
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers, timeout=60)
 
         if response.status_code != 200:
             return self.create_text_message(f"Got Error Response: {response.text}")

@@ -36,7 +36,7 @@ class FirecrawlApp:
             headers = self._prepare_headers()
         for i in range(retries):
             try:
-                response = requests.request(method, url, json=data, headers=headers)
+                response = requests.request(method, url, json=data, headers=headers, timeout=60)
                 return response.json()
             except requests.exceptions.RequestException:
                 if i < retries - 1:

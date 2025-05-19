@@ -12,6 +12,6 @@ class GiteeAIProvider(BuiltinToolProviderController):
             "authorization": f"Bearer {credentials.get('api_key')}",
         }
 
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=60)
         if response.status_code != 200:
             raise ToolProviderCredentialValidationError("GiteeAI API key is invalid")

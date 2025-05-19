@@ -84,7 +84,7 @@ def spark_response(text, appid, apikey, apisecret):
     host = "http://spark-api.cn-huabei-1.xf-yun.com/v2.1/tti"
     url = assemble_ws_auth_url(host, method="POST", api_key=apikey, api_secret=apisecret)
     content = get_body(appid, text)
-    response = requests.post(url, json=content, headers={"content-type": "application/json"}).text
+    response = requests.post(url, json=content, headers={"content-type": "application/json"}, timeout=60).text
     return response
 
 

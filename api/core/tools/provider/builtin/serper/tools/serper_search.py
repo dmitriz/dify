@@ -28,7 +28,7 @@ class SerperSearchTool(BuiltinTool):
     ) -> Union[ToolInvokeMessage, list[ToolInvokeMessage]]:
         params = {"q": tool_parameters["query"], "gl": "us", "hl": "en"}
         headers = {"X-API-KEY": self.runtime.credentials["serperapi_api_key"], "Content-Type": "application/json"}
-        response = requests.get(url=SERPER_API_URL, params=params, headers=headers)
+        response = requests.get(url=SERPER_API_URL, params=params, headers=headers, timeout=60)
         response.raise_for_status()
         valuable_res = self._parse_response(response.json())
         return self.create_json_message(valuable_res)

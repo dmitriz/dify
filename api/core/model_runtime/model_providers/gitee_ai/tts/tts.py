@@ -66,7 +66,7 @@ class GiteeAIText2SpeechModel(_CommonGiteeAI, TTSModel):
                 headers["Authorization"] = f"Bearer {api_key}"
 
             payload = {"inputs": content_text}
-            response = requests.post(endpoint_url, headers=headers, json=payload)
+            response = requests.post(endpoint_url, headers=headers, json=payload, timeout=60)
 
             if response.status_code != 200:
                 raise InvokeBadRequestError(response.text)

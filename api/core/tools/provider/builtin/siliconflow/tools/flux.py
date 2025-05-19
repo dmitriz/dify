@@ -32,7 +32,7 @@ class FluxTool(BuiltinTool):
         if model == "dev":
             payload["model"] = "black-forest-labs/FLUX.1-dev"
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
             return self.create_text_message(f"Got Error Response:{response.text}")
 

@@ -443,7 +443,7 @@ class BedrockLargeLanguageModel(LargeLanguageModel):
                             # fetch image data from url
                             try:
                                 url = message_content.data
-                                image_content = requests.get(url).content
+                                image_content = requests.get(url, timeout=60).content
                                 if "?" in url:
                                     url = url.split("?")[0]
                                 mime_type, _ = mimetypes.guess_type(url)

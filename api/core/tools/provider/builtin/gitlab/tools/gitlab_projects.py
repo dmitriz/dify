@@ -50,7 +50,7 @@ class GitlabProjectsTool(BuiltinTool):
             else:
                 projects_url = f"{domain}/api/v4/projects?page={page}&per_page={page_size}"
 
-            response = requests.get(projects_url, headers=headers)
+            response = requests.get(projects_url, headers=headers, timeout=60)
             response.raise_for_status()
             projects = response.json()
 

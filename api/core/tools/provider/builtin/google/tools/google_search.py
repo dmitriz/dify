@@ -34,7 +34,7 @@ class GoogleSearchTool(BuiltinTool):
             "gl": "us",
             "hl": "en",
         }
-        response = requests.get(url=SERP_API_URL, params=params)
+        response = requests.get(url=SERP_API_URL, params=params, timeout=60)
         response.raise_for_status()
         valuable_res = self._parse_response(response.json())
         return self.create_json_message(valuable_res)

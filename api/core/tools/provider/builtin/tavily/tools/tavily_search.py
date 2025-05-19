@@ -39,7 +39,7 @@ class TavilySearch:
         # Process parameters to ensure correct types
         processed_params = self._process_params(params)
 
-        response = requests.post(f"{TAVILY_API_URL}/search", json=processed_params)
+        response = requests.post(f"{TAVILY_API_URL}/search", json=processed_params, timeout=60)
         response.raise_for_status()
         return response.json()
 

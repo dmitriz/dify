@@ -33,7 +33,7 @@ class GetListsFromBoardTool(BuiltinTool):
         url = f"https://api.trello.com/1/boards/{board_id}/lists?key={api_key}&token={token}"
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             response.raise_for_status()
             lists = response.json()
         except requests.exceptions.RequestException as e:

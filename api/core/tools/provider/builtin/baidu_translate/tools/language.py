@@ -45,7 +45,7 @@ class BaiduLanguageTool(BuiltinTool, BaiduTranslateToolBase):
         }
 
         try:
-            response = requests.post(BAIDU_LANGUAGE_URL, params=params, headers=headers)
+            response = requests.post(BAIDU_LANGUAGE_URL, params=params, headers=headers, timeout=60)
             result = response.json()
             if "error_code" not in result:
                 raise ValueError("Translation service error, please check the network")

@@ -23,7 +23,7 @@ class GiteeAITool(BuiltinTool):
         model = tool_parameters.get("model", "Kolors")
         url = f"https://ai.gitee.com/api/serverless/{model}/text-to-image"
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers, timeout=60)
         if response.status_code != 200:
             return self.create_text_message(f"Got Error Response:{response.text}")
 

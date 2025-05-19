@@ -39,7 +39,7 @@ class GoogleTranslate(BuiltinTool):
                 " Chrome/91.0.4472.124 Safari/537.36"
             }
 
-            response_json = requests.get(url, params=params, headers=headers).json()
+            response_json = requests.get(url, params=params, headers=headers, timeout=60).json()
             result = response_json[0]
             translated_text = "".join([item[0] for item in result if item[0]])
             return str(translated_text)

@@ -59,7 +59,7 @@ class GitHubOAuth(OAuth):
             "redirect_uri": self.redirect_uri,
         }
         headers = {"Accept": "application/json"}
-        response = requests.post(self._TOKEN_URL, data=data, headers=headers)
+        response = requests.post(self._TOKEN_URL, data=data, headers=headers, timeout=60)
 
         response_json = response.json()
         access_token = response_json.get("access_token")
@@ -71,11 +71,11 @@ class GitHubOAuth(OAuth):
 
     def get_raw_user_info(self, token: str):
         headers = {"Authorization": f"token {token}"}
-        response = requests.get(self._USER_INFO_URL, headers=headers)
+        response = requests.get(self._USER_INFO_URL, headers=headers, timeout=60)
         response.raise_for_status()
         user_info = response.json()
 
-        email_response = requests.get(self._EMAIL_INFO_URL, headers=headers)
+        email_response = requests.get(self._EMAIL_INFO_URL, headers=headers, timeout=60)
         email_info = email_response.json()
         primary_email = next((email for email in email_info if email["primary"] == True), None)
 
@@ -113,7 +113,7 @@ class GoogleOAuth(OAuth):
             "redirect_uri": self.redirect_uri,
         }
         headers = {"Accept": "application/json"}
-        response = requests.post(self._TOKEN_URL, data=data, headers=headers)
+        response = requests.post(self._TOKEN_URL, data=data, headers=headers, timeout=60)
 
         response_json = response.json()
         access_token = response_json.get("access_token")
@@ -125,7 +125,7 @@ class GoogleOAuth(OAuth):
 
     def get_raw_user_info(self, token: str):
         headers = {"Authorization": f"Bearer {token}"}
-        response = requests.get(self._USER_INFO_URL, headers=headers)
+        response = requests.get(self._USER_INFO_URL, headers=headers, timeout=60)
         response.raise_for_status()
         return response.json()
 

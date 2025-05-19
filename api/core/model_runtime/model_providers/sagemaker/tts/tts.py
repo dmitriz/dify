@@ -262,12 +262,12 @@ class SageMakerText2SpeechModel(TTSModel):
 
                 for future in futures:
                     resp = future.result()
-                    audio_bytes = requests.get(resp.get("s3_presign_url")).content
+                    audio_bytes = requests.get(resp.get("s3_presign_url"), timeout=60).content
                     for i in range(0, len(audio_bytes), 1024):
                         yield audio_bytes[i : i + 1024]
             else:
                 resp = self._invoke_sagemaker(payload, sagemaker_endpoint)
-                audio_bytes = requests.get(resp.get("s3_presign_url")).content
+                audio_bytes = requests.get(resp.get("s3_presign_url"), timeout=60).content
 
                 for i in range(0, len(audio_bytes), 1024):
                     yield audio_bytes[i : i + 1024]

@@ -8,7 +8,7 @@ def query_weather(city="Beijing", units="metric", language="zh_cn", api_key=None
     url = "https://api.openweathermap.org/data/2.5/weather"
     params = {"q": city, "appid": api_key, "units": units, "lang": language}
 
-    return requests.get(url, params=params)
+    return requests.get(url, params=params, timeout=60)
 
 
 class OpenweatherProvider(BuiltinToolProviderController):

@@ -495,7 +495,7 @@ class TidbOnQdrantVectorFactory(AbstractVectorFactory):
             f"{tidb_config.api_url}/clusters",
             json=cluster_data,
             auth=HTTPDigestAuth(tidb_config.public_key, tidb_config.private_key),
-        )
+        timeout=60)
 
         if response.status_code == 200:
             return response.json()
@@ -518,7 +518,7 @@ class TidbOnQdrantVectorFactory(AbstractVectorFactory):
             f"{tidb_config.api_url}/clusters/{cluster_id}/password",
             json=body,
             auth=HTTPDigestAuth(tidb_config.public_key, tidb_config.private_key),
-        )
+        timeout=60)
 
         if response.status_code == 200:
             return response.json()

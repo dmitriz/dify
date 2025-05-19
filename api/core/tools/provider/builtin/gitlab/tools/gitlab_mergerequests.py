@@ -52,7 +52,7 @@ class GitlabMergeRequestsTool(BuiltinTool):
             if end_time:
                 params["created_before"] = end_time
 
-            response = requests.get(merge_requests_url, headers=headers, params=params)
+            response = requests.get(merge_requests_url, headers=headers, params=params, timeout=60)
             response.raise_for_status()
             merge_requests = response.json()
 

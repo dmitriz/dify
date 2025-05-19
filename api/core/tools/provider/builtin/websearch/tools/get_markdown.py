@@ -29,7 +29,7 @@ class SerplyApi:
             "User-Agent": "Dify",
         }
         data = {"url": url, "method": "GET", "response_type": "markdown"}
-        res = requests.post(url, headers=headers, json=data)
+        res = requests.post(url, headers=headers, json=data, timeout=60)
         return res.text
 
 

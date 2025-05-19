@@ -36,7 +36,7 @@ class SearchDevDocsTool(BuiltinTool):
             return self.create_text_message("Please provide the topic path.")
 
         url = f"https://documents.devdocs.io/{doc}/{topic}.html"
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
 
         if response.status_code == 200:
             content = response.text

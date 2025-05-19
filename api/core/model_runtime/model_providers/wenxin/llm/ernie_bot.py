@@ -68,7 +68,7 @@ class ErnieBotModel(_CommonWenxin):
             "Content-Type": "application/json",
         }
 
-        resp = post(url=url, data=dumps(body), headers=headers, stream=stream)
+        resp = post(url=url, data=dumps(body), headers=headers, stream=stream, timeout=60)
 
         if resp.status_code != 200:
             raise InternalServerError(f"Failed to invoke ernie bot: {resp.text}")
