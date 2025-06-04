@@ -1,6 +1,5 @@
 import json
 import os
-import random
 import uuid
 from copy import deepcopy
 from enum import Enum
@@ -14,6 +13,7 @@ from core.tools.entities.common_entities import I18nObject
 from core.tools.entities.tool_entities import ToolInvokeMessage, ToolParameter, ToolParameterOption
 from core.tools.errors import ToolProviderCredentialValidationError
 from core.tools.tool.builtin_tool import BuiltinTool
+import secrets
 
 SD_TXT2IMG_OPTIONS = {}
 LORA_NODE = {
@@ -283,7 +283,7 @@ class ComfyuiStableDiffusionTool(BuiltinTool):
         draw_options["3"]["inputs"]["scheduler"] = scheduler
         draw_options["3"]["inputs"]["cfg"] = cfg
         # generate different image when using same prompt next time
-        draw_options["3"]["inputs"]["seed"] = random.randint(0, 100000000)
+        draw_options["3"]["inputs"]["seed"] = secrets.SystemRandom().randint(0, 100000000)
         draw_options["4"]["inputs"]["ckpt_name"] = model
         draw_options["5"]["inputs"]["width"] = width
         draw_options["5"]["inputs"]["height"] = height

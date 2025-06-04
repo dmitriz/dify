@@ -1,7 +1,7 @@
 import json
-import random
 from collections import UserDict
 from datetime import datetime
+import secrets
 
 
 class ChatRole:
@@ -44,7 +44,7 @@ def json_to_object(json_str, req_id=None):
 
 
 def gen_req_id():
-    return datetime.now().strftime("%Y%m%d%H%M%S") + format(random.randint(0, 2**64 - 1), "020X")
+    return datetime.now().strftime("%Y%m%d%H%M%S") + format(secrets.SystemRandom().randint(0, 2**64 - 1), "020X")
 
 
 class SSEDecoder:

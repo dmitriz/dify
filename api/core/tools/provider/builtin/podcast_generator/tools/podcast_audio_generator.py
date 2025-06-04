@@ -1,6 +1,5 @@
 import concurrent.futures
 import io
-import random
 import warnings
 from typing import Any, Literal, Optional, Union
 
@@ -10,6 +9,7 @@ from yarl import URL
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.errors import ToolParameterValidationError, ToolProviderCredentialValidationError
 from core.tools.tool.builtin_tool import BuiltinTool
+import secrets
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
@@ -33,7 +33,7 @@ class PodcastAudioGeneratorTool(BuiltinTool):
         try:
             response = client.audio.speech.create(model="tts-1", voice=voice, input=line.strip(), response_format="wav")
             audio = AudioSegment.from_wav(io.BytesIO(response.content))
-            silence_duration = random.uniform(0.1, 1.5)
+            silence_duration = secrets.SystemRandom().uniform(0.1, 1.5)
             silence = PodcastAudioGeneratorTool._generate_silence(silence_duration)
             return index, audio, silence
         except Exception as e:

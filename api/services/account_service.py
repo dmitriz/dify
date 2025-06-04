@@ -1,7 +1,6 @@
 import base64
 import json
 import logging
-import random
 import secrets
 import uuid
 from datetime import datetime, timedelta, timezone
@@ -353,7 +352,7 @@ class AccountService:
 
             raise PasswordResetRateLimitExceededError()
 
-        code = "".join([str(random.randint(0, 9)) for _ in range(6)])
+        code = "".join([str(secrets.SystemRandom().randint(0, 9)) for _ in range(6)])
         token = TokenManager.generate_token(
             account=account, email=email, token_type="reset_password", additional_data={"code": code}
         )
@@ -382,7 +381,7 @@ class AccountService:
 
             raise EmailCodeLoginRateLimitExceededError()
 
-        code = "".join([str(random.randint(0, 9)) for _ in range(6)])
+        code = "".join([str(secrets.SystemRandom().randint(0, 9)) for _ in range(6)])
         token = TokenManager.generate_token(
             account=account, email=email, token_type="email_code_login", additional_data={"code": code}
         )

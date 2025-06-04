@@ -1,9 +1,9 @@
-import random
 from unittest.mock import MagicMock, patch
 
 import pytest
 
 from core.helper.ssrf_proxy import SSRF_DEFAULT_MAX_RETRIES, STATUS_FORCELIST, make_request
+import secrets
 
 
 @patch("httpx.Client.request")
@@ -34,7 +34,7 @@ def test_retry_logic_success(mock_request):
     side_effects = []
 
     for _ in range(SSRF_DEFAULT_MAX_RETRIES):
-        status_code = random.choice(STATUS_FORCELIST)
+        status_code = secrets.choice(STATUS_FORCELIST)
         mock_response = MagicMock()
         mock_response.status_code = status_code
         side_effects.append(mock_response)

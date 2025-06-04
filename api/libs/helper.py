@@ -1,6 +1,5 @@
 import json
 import logging
-import random
 import re
 import string
 import subprocess
@@ -20,6 +19,7 @@ from core.app.features.rate_limiting.rate_limit import RateLimitGenerator
 from core.file import helpers as file_helpers
 from extensions.ext_redis import redis_client
 from models.account import Account
+import secrets
 
 
 def run(script):
@@ -158,7 +158,7 @@ def generate_string(n):
     letters_digits = string.ascii_letters + string.digits
     result = ""
     for i in range(n):
-        result += random.choice(letters_digits)
+        result += secrets.choice(letters_digits)
 
     return result
 

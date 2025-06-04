@@ -1,11 +1,11 @@
 import logging
-import random
 
 from core.app.entities.app_invoke_entities import ModelConfigWithCredentialsEntity
 from core.model_runtime.errors.invoke import InvokeBadRequestError
 from core.model_runtime.model_providers.openai.moderation.moderation import OpenAIModerationModel
 from extensions.ext_hosting_provider import hosting_configuration
 from models.provider import ProviderType
+import secrets
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ def check_moderation(model_config: ModelConfigWithCredentialsEntity, text: str) 
             if len(text_chunks) == 0:
                 return True
 
-            text_chunk = random.choice(text_chunks)
+            text_chunk = secrets.choice(text_chunks)
 
             try:
                 model_type_instance = OpenAIModerationModel()

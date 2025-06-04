@@ -1,4 +1,3 @@
-import random
 from base64 import b64decode
 from typing import Any, Union
 
@@ -6,6 +5,7 @@ from openai import AzureOpenAI
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+import secrets
 
 
 class DallE3Tool(BuiltinTool):
@@ -79,5 +79,5 @@ class DallE3Tool(BuiltinTool):
     @staticmethod
     def _generate_random_id(length=8):
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        random_id = "".join(random.choices(characters, k=length))
+        random_id = "".join(secrets.SystemRandom().choices(characters, k=length))
         return random_id

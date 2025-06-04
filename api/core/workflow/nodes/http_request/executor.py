@@ -1,7 +1,6 @@
 import json
 from collections.abc import Mapping
 from copy import deepcopy
-from random import randint
 from typing import Any, Literal
 from urllib.parse import urlencode, urlparse
 
@@ -24,6 +23,7 @@ from .exc import (
     InvalidHttpMethodError,
     ResponseSizeError,
 )
+import secrets
 
 BODY_TYPE_TO_CONTENT_TYPE = {
     "json": "application/json",
@@ -326,4 +326,4 @@ def _generate_random_string(n: int) -> str:
         >>> _generate_random_string(5)
         'abcde'
     """
-    return "".join([chr(randint(97, 122)) for _ in range(n)])
+    return "".join([chr(secrets.SystemRandom().randint(97, 122)) for _ in range(n)])

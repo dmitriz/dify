@@ -1,4 +1,3 @@
-import random
 from hashlib import md5
 from typing import Any, Union
 
@@ -7,6 +6,7 @@ import requests
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.provider.builtin.baidu_translate._baidu_translate_tool_base import BaiduTranslateToolBase
 from core.tools.tool.builtin_tool import BuiltinTool
+import secrets
 
 
 class BaiduFieldTranslateTool(BuiltinTool, BaiduTranslateToolBase):
@@ -44,7 +44,7 @@ class BaiduFieldTranslateTool(BuiltinTool, BaiduTranslateToolBase):
         if not domain:
             raise ValueError("Please select domain")
 
-        salt = str(random.randint(32768, 16777215))
+        salt = str(secrets.SystemRandom().randint(32768, 16777215))
         sign = self._get_sign(appid, secret, salt, q, domain)
 
         headers = {"Content-Type": "application/x-www-form-urlencoded"}

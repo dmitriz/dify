@@ -1,4 +1,3 @@
-import random
 from typing import Any, Union
 
 import requests
@@ -6,6 +5,7 @@ import requests
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.provider.builtin.baidu_translate._baidu_translate_tool_base import BaiduTranslateToolBase
 from core.tools.tool.builtin_tool import BuiltinTool
+import secrets
 
 
 class BaiduLanguageTool(BuiltinTool, BaiduTranslateToolBase):
@@ -33,7 +33,7 @@ class BaiduLanguageTool(BuiltinTool, BaiduTranslateToolBase):
 
         description_language = tool_parameters.get("description_language", "English")
 
-        salt = str(random.randint(32768, 16777215))
+        salt = str(secrets.SystemRandom().randint(32768, 16777215))
         sign = self._get_sign(appid, secret, salt, q)
 
         headers = {"Content-Type": "application/x-www-form-urlencoded"}

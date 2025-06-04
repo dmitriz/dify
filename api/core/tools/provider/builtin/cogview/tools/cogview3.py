@@ -1,10 +1,10 @@
-import random
 from typing import Any, Union
 
 from zhipuai import ZhipuAI
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
+import secrets
 
 
 class CogView3Tool(BuiltinTool):
@@ -89,5 +89,5 @@ class CogView3Tool(BuiltinTool):
     @staticmethod
     def _generate_random_id(length=8):
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        random_id = "".join(random.choices(characters, k=length))
+        random_id = "".join(secrets.SystemRandom().choices(characters, k=length))
         return random_id

@@ -1,7 +1,6 @@
 import datetime
 import json
 import logging
-import random
 import time
 import uuid
 from typing import Any, Optional
@@ -54,6 +53,7 @@ from tasks.duplicate_document_indexing_task import duplicate_document_indexing_t
 from tasks.recover_document_indexing_task import recover_document_indexing_task
 from tasks.retry_document_indexing_task import retry_document_indexing_task
 from tasks.sync_website_document_indexing_task import sync_website_document_indexing_task
+import secrets
 
 
 class DatasetService:
@@ -740,7 +740,7 @@ class DocumentService:
             documents.append(document)
             batch = document.batch
         else:
-            batch = time.strftime("%Y%m%d%H%M%S") + str(random.randint(100000, 999999))
+            batch = time.strftime("%Y%m%d%H%M%S") + str(secrets.SystemRandom().randint(100000, 999999))
             # save process rule
             if not dataset_process_rule:
                 process_rule = document_data["process_rule"]
