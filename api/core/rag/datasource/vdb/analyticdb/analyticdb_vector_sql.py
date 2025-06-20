@@ -131,19 +131,19 @@ class AnalyticdbVectorBySql:
             with self._get_cursor() as cur:
                 cur.execute(
                     f"CREATE TABLE IF NOT EXISTS {self.table_name}("
-                    f"id text PRIMARY KEY,"
-                    f"vector real[], ref_doc_id text, page_content text, metadata_ jsonb, "
-                    f"to_tsvector TSVECTOR"
-                    f") WITH (fillfactor=70) DISTRIBUTED BY (id);"
+                    "id text PRIMARY KEY,"
+                    "vector real[], ref_doc_id text, page_content text, metadata_ jsonb, "
+                    "to_tsvector TSVECTOR"
+                    ") WITH (fillfactor=70) DISTRIBUTED BY (id);"
                 )
                 if embedding_dimension is not None:
                     index_name = f"{self._collection_name}_embedding_idx"
                     cur.execute(f"ALTER TABLE {self.table_name} ALTER COLUMN vector SET STORAGE PLAIN")
                     cur.execute(
                         f"CREATE INDEX {index_name} ON {self.table_name} USING ann(vector) "
-                        f"WITH(dim='{embedding_dimension}', distancemeasure='{self.config.metrics}', "
-                        f"pq_enable=0, external_storage=0)"
-                    )
+                        "WITH(dim=?, distancemeasure=?, "
+                        "pq_enable=0, external_storage=0)", 
+                    (embedding_dimension, self.config.metrics, ))
                     cur.execute(f"CREATE INDEX ON {self.table_name} USING gin(to_tsvector)")
             redis_client.set(collection_exist_cache_key, 1, ex=3600)
 
@@ -197,9 +197,9 @@ class AnalyticdbVectorBySql:
             query_vector_str = json.dumps(query_vector)
             query_vector_str = "{" + query_vector_str[1:-1] + "}"
             cur.execute(
-                f"SELECT t.id AS id, t.vector AS vector, (1.0 - t.score) AS score, "
-                f"t.page_content as page_content, t.metadata_ AS metadata_ "
-                f"FROM (SELECT id, vector, page_content, metadata_, vector <=> %s AS score "
+                "SELECT t.id AS id, t.vector AS vector, (1.0 - t.score) AS score, "
+                "t.page_content as page_content, t.metadata_ AS metadata_ "
+                "FROM (SELECT id, vector, page_content, metadata_, vector <=> %s AS score "
                 f"FROM {self.table_name} ORDER BY score LIMIT {top_k} ) t",
                 (query_vector_str,),
             )

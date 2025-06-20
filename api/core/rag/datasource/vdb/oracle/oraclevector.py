@@ -157,7 +157,7 @@ class OracleVector(BaseVector):
 
     def text_exists(self, id: str) -> bool:
         with self._get_cursor() as cur:
-            cur.execute(f"SELECT id FROM {self.table_name} WHERE id = '%s'" % (id,))
+            cur.execute(f"SELECT id FROM {self.table_name} WHERE id = ?", (id, ))
             return cur.fetchone() is not None
 
     def get_by_ids(self, ids: list[str]) -> list[Document]:
@@ -203,8 +203,6 @@ class OracleVector(BaseVector):
 
     def search_by_full_text(self, query: str, **kwargs: Any) -> list[Document]:
         top_k = kwargs.get("top_k", 5)
-        # just not implement fetch by score_threshold now, may be later
-        score_threshold = float(kwargs.get("score_threshold") or 0.0)
         if len(query) > 0:
             # Check which language the query is in
             zh_pattern = re.compile("[\u4e00-\u9fa5]+")
